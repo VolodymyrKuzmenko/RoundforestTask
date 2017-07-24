@@ -47,4 +47,31 @@ public class AmazonReviewService {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
+
+
+    public Iterable<String> findMostUsedWords(File reviews, int maxItems) throws IOException {
+        Map<String, Integer> map = new HashMap<>();
+        Reader in = new FileReader(reviews);
+        Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
+        StreamSupport.stream(records.spliterator(), false)
+                .map(x -> x.get(ReviewFields.TEXT).split("\\W+"))
+                .forEach(x -> {
+                    for (String word : x) {
+                        Integer count = map.get(word.toLowerCase());
+                        if (count == null) {
+                            map.put(word.toLowerCase(), 1);
+                        } else {
+                            map.put(word.toLowerCase(), ++count);
+                        }
+                    }
+
+                });
+
+        return map.entrySet()
+                .stream()
+                .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
+                .limit(maxItems)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }
