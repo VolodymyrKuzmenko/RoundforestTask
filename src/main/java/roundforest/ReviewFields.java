@@ -4,7 +4,8 @@ package roundforest;
  * Created by Vova on 7/25/2017.
  */
 public enum ReviewFields {
-    PROFILE_NAME("ProfileName");
+    PROFILE_NAME("ProfileName"),
+    PRODUCT_ID("ProductId");
 
 
     private String name;

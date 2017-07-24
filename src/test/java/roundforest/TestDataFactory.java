@@ -16,6 +16,10 @@ public class TestDataFactory {
         return asList("Canadian Fan", "delmartian");
     }
 
+    public static Iterable<String> getTwoTheMostCommentedProduct() {
+        return asList("B001EO5QW8", "B001GVISJM");
+    }
+
     private static File loadFromResource(String name) {
         ClassLoader classLoader = TestDataFactory.class.getClassLoader();
         return new File(classLoader.getResource(name).getFile());

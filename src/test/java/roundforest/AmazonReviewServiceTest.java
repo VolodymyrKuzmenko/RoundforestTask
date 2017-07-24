@@ -8,8 +8,7 @@ import java.io.IOException;
 
 import static org.apache.commons.io.FileUtils.getFile;
 import static org.junit.Assert.assertEquals;
-import static roundforest.TestDataFactory.getReviews;
-import static roundforest.TestDataFactory.getTwoTheMostActiveUser;
+import static roundforest.TestDataFactory.*;
 
 public class AmazonReviewServiceTest {
 
@@ -23,10 +22,19 @@ public class AmazonReviewServiceTest {
     }
 
     @Test
-    public void shouldFindTheMostActiveUsers() throws IOException {
+    public void shouldFindMostActiveUsers() throws IOException {
         Iterable<String> expected = getTwoTheMostActiveUser();
 
         Iterable<String> actual = service.findMostActiveUsers(getReviews(), 2);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindMostCommentedProduct() throws IOException {
+        Iterable<String> expected = getTwoTheMostCommentedProduct();
+
+        Iterable<String> actual = service.findMostCommentedProduct(getReviews(), 2);
 
         assertEquals(expected, actual);
     }
