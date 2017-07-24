@@ -12,16 +12,25 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.apache.commons.csv.CSVFormat.DEFAULT;
+import static roundforest.ReviewFields.PRODUCT_ID;
 import static roundforest.ReviewFields.PROFILE_NAME;
 
 public class AmazonReviewService {
 
     public Iterable<String> findMostActiveUsers(File reviews, int maxItems) throws IOException {
+        return findMostUsingItemInFile(reviews, maxItems, PROFILE_NAME);
+    }
+
+    public Iterable<String> findMostCommentedProduct(File reviews, int maxItems) throws IOException {
+        return findMostUsingItemInFile(reviews, maxItems, PRODUCT_ID);
+    }
+
+    private Iterable<String> findMostUsingItemInFile(File reviews, int maxItems, ReviewFields field) throws IOException {
         Map<String, Integer> map = new HashMap<>();
         Reader in = new FileReader(reviews);
         Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
         StreamSupport.stream(records.spliterator(), false)
-                .map(x -> x.get(PROFILE_NAME))
+                .map(x -> x.get(field))
                 .forEach(x -> {
                     Integer count = map.get(x);
                     if (count == null) {
