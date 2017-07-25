@@ -1,6 +1,7 @@
 package roundforest;
 
 import org.apache.commons.csv.CSVRecord;
+import roundforest.domain.ReviewFields;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.StreamSupport.stream;
 import static org.apache.commons.csv.CSVFormat.DEFAULT;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
-import static roundforest.ReviewFields.*;
+import static roundforest.domain.ReviewFields.*;
 
 public class AmazonReviewService {
 
