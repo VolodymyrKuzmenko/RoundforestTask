@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
+import static java.util.stream.StreamSupport.stream;
 import static org.apache.commons.csv.CSVFormat.DEFAULT;
-import static roundforest.ReviewFields.PRODUCT_ID;
-import static roundforest.ReviewFields.PROFILE_NAME;
+import static org.apache.commons.lang3.ArrayUtils.addAll;
+import static roundforest.ReviewFields.*;
 
 public class AmazonReviewService {
 
@@ -25,53 +26,56 @@ public class AmazonReviewService {
         return findMostUsingItemInFile(reviews, maxItems, PRODUCT_ID);
     }
 
-    private Iterable<String> findMostUsingItemInFile(File reviews, int maxItems, ReviewFields field) throws IOException {
+    public Iterable<String> findMostUsedWords(File reviews, int limit) {
         Map<String, Integer> map = new HashMap<>();
-        Reader in = new FileReader(reviews);
-        Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
-        StreamSupport.stream(records.spliterator(), false)
-                .map(x -> x.get(field))
-                .forEach(x -> {
-                    Integer count = map.get(x);
-                    if (count == null) {
-                        map.put(x, 1);
-                    } else {
-                        map.put(x, ++count);
-                    }
-                });
+        try (Reader in = new FileReader(reviews)) {
+            Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
+            stream(records.spliterator(), false)
+                    .map(x -> addAll(
+                            x.get(TEXT).split("\\W+"),
+                            x.get(SUMMARY).split("\\W+")))
+                    .forEach(x -> {
+                                for (String word : x) {
+                                    putKeyIfNotExistOrIncrement(map, word.toLowerCase());
+                                }
+                            }
+                    );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sortEntrySetByIntValue(map.entrySet(), limit);
+    }
 
-        return map.entrySet()
+    private Iterable<String> findMostUsingItemInFile(File reviews, int limit, ReviewFields field) {
+        Map<String, Integer> map = new HashMap<>();
+        try (Reader in = new FileReader(reviews)) {
+            Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
+            stream(records.spliterator(), false)
+                    .map(x -> x.get(field))
+                    .forEach(x -> putKeyIfNotExistOrIncrement(map, x));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sortEntrySetByIntValue(map.entrySet(), limit);
+    }
+
+    private Iterable<String> sortEntrySetByIntValue(Set<Map.Entry<String, Integer>> entrySet, int limit) {
+        return entrySet
                 .stream()
                 .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
-                .limit(maxItems)
+                .limit(limit)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
-
-    public Iterable<String> findMostUsedWords(File reviews, int maxItems) throws IOException {
-        Map<String, Integer> map = new HashMap<>();
-        Reader in = new FileReader(reviews);
-        Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
-        StreamSupport.stream(records.spliterator(), false)
-                .map(x -> x.get(ReviewFields.TEXT).split("\\W+"))
-                .forEach(x -> {
-                    for (String word : x) {
-                        Integer count = map.get(word.toLowerCase());
-                        if (count == null) {
-                            map.put(word.toLowerCase(), 1);
-                        } else {
-                            map.put(word.toLowerCase(), ++count);
-                        }
-                    }
-
-                });
-
-        return map.entrySet()
-                .stream()
-                .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
-                .limit(maxItems)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+    private void putKeyIfNotExistOrIncrement(Map<String, Integer> map, String key) {
+        Integer count = map.get(key);
+        if (count == null) {
+            map.put(key, 1);
+        } else {
+            map.put(key, ++count);
+        }
     }
+
 }
