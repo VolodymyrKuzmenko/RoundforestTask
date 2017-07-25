@@ -11,10 +11,10 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 @Data
 @JsonPropertyOrder({"input_lang", "output_lang", "text"})
 public class ReviewDTO {
-    @JsonProperty("input_lang")
-    private Languages inputLanguage;
-    @JsonProperty("output_lang")
-    private Languages outputLanguages;
     @JsonProperty
     private String text;
+    @JsonProperty("input_lang")
+    private Language inputLanguage;
+    @JsonProperty("output_lang")
+    private Language outputLanguages;
 }

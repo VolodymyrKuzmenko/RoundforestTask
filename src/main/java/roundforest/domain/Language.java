@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.codehaus.jackson.annotate.JsonValue;
 
 @AllArgsConstructor
-public enum Languages {
+public enum Language {
     EN("en"), FR("fr");
 
     private String code;
