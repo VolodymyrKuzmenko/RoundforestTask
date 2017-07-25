@@ -1,8 +1,12 @@
 package roundforest;
 
+import roundforest.domain.ReviewDTO;
+
 import java.io.File;
 
 import static java.util.Arrays.asList;
+import static roundforest.domain.Languages.EN;
+import static roundforest.domain.Languages.FR;
 
 public class TestDataFactory {
 
@@ -22,6 +26,18 @@ public class TestDataFactory {
 
     public static Iterable<String> getTwoTheMostUsedWords() {
         return asList("the", "and");
+    }
+
+    public static String getTranslatedReview() {
+        return "Salut Jean, comment vas tu?";
+    }
+
+    public static ReviewDTO getReviewDTO() {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setInputLanguage(EN);
+        dto.setOutputLanguages(FR);
+        dto.setText("Hello John, how are you?");
+        return dto;
     }
 
     private static File loadFromResource(String name) {
