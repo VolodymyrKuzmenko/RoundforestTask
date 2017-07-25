@@ -20,6 +20,10 @@ public class TestDataFactory {
         return asList("B001EO5QW8", "B001GVISJM");
     }
 
+    public static Iterable<String> getTwoTheMostUsedWords() {
+        return asList("the", "and");
+    }
+
     private static File loadFromResource(String name) {
         ClassLoader classLoader = TestDataFactory.class.getClassLoader();
         return new File(classLoader.getResource(name).getFile());

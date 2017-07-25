@@ -40,6 +40,15 @@ public class AmazonReviewServiceTest {
     }
 
     @Test
+    public void shouldFindMostUsedWordInText() throws IOException {
+        Iterable<String> expected = getTwoTheMostUsedWords();
+
+        Iterable<String> actual = service.findMostUsedWords(getReviews(), 2);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     @Ignore
     public void shouldFindTheMostActiveUsersForManualRun() throws IOException {
         service.findMostActiveUsers(getFile(testFile), 1000);

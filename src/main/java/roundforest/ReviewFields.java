@@ -5,7 +5,9 @@ package roundforest;
  */
 public enum ReviewFields {
     PROFILE_NAME("ProfileName"),
-    PRODUCT_ID("ProductId");
+    PRODUCT_ID("ProductId"),
+    SUMMARY("Summary"),
+    TEXT("Text");
 
 
     private String name;
