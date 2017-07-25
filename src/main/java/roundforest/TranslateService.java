@@ -1,5 +1,6 @@
 package roundforest;
 
+import lombok.Setter;
 import org.springframework.web.client.RestTemplate;
 import roundforest.domain.ReviewDTO;
 import roundforest.mock.MockRestTemplate;
@@ -15,6 +16,7 @@ public class TranslateService {
 
     private static final int MAX_SIZE = 1000;
     private final String TRANSLATE_ENDPOINT = "https://api.google.com/translate";
+    @Setter
     private RestTemplate template = new MockRestTemplate();
 
     public Iterable<String> translateReviews(Iterable<String> review) {
@@ -25,10 +27,21 @@ public class TranslateService {
 
     private String translate(String text) {
         if (text.length() >= MAX_SIZE) {
-            return splitAndTranslate(text);
+            return splitDataAndTranslate(text);
         }
         return translateData(text);
 
+    }
+
+    private String splitDataAndTranslate(String text) {
+        String[] sentences = text.split("\\.");
+        StringBuilder paragraph = new StringBuilder();
+        for (String sentence : sentences) {
+            paragraph
+                    .append(translateData(sentence))
+                    .append(".");
+        }
+        return paragraph.toString();
     }
 
     private String translateData(String text) {
@@ -36,12 +49,5 @@ public class TranslateService {
                 fromHttpUrl(TRANSLATE_ENDPOINT).build().encode().toUri(),
                 new ReviewDTO(EN, FR, text),
                 String.class);
-    }
-
-    private String splitAndTranslate(String text) {
-        String[] sentences = text.split("(?<=[a-z])\\.\\s+");
-        for (String sentence : sentences){
-            
-        }
     }
 }

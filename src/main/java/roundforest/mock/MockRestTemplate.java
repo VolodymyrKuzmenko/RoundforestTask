@@ -29,6 +29,7 @@ public class MockRestTemplate extends RestTemplate {
 
                 JsonParser parser = mapper.getJsonFactory().createJsonParser(MOCK_JSON_RESPONSE);
                 JsonNode node = mapper.readTree(parser);
+                //TODO fixed casting
                 return (T) mapper.readValue(node.get("text"), String.class);
             } catch (Exception e) {
                 e.printStackTrace();

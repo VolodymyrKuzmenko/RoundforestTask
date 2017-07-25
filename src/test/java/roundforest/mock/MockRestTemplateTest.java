@@ -1,7 +1,8 @@
-package roundforest;
+package roundforest.mock;
 
 import org.junit.Before;
 import org.junit.Test;
+import roundforest.TestDataFactory;
 import roundforest.mock.MockRestTemplate;
 
 import static org.junit.Assert.assertEquals;
