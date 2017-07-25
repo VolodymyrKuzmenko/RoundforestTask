@@ -30,17 +30,20 @@ public class TranslateService {
             return splitAndTranslate(text, srcLang, destLang);
         }
         return translateData(text, srcLang, destLang);
-
     }
 
     private String splitAndTranslate(String text, Language srcLang, Language destLang) {
-        String[] sentences = text.split("\\.");
+        int indexOfValidPArt = searchIndexValidParagraph(text, MAX_SIZE);
+
+        String validParagraph = text.substring(0, indexOfValidPArt);
+        String otherPart = text.substring(indexOfValidPArt + 1);
+
         StringBuilder paragraph = new StringBuilder();
-        for (String sentence : sentences) {
-            paragraph
-                    .append(translateData(sentence, srcLang, destLang))
-                    .append(".");
-        }
+        paragraph
+                //can process valid paragraph
+                .append(translateData(validParagraph, srcLang, destLang))
+                //may be large, must processed from the begin
+                .append(translate(otherPart, srcLang, destLang));
         return paragraph.toString();
     }
 
@@ -49,5 +52,18 @@ public class TranslateService {
                 fromHttpUrl(TRANSLATE_ENDPOINT).build().encode().toUri(),
                 new ReviewDTO(text, srcLang, destLang),
                 String.class);
+    }
+
+    private int searchIndexValidParagraph(String paragraph, int limit) {
+        int searchIndex = 0;
+        int lastFound = 0;
+        while (searchIndex < limit) {
+            lastFound = searchIndex;
+            searchIndex = paragraph.indexOf(".", ++searchIndex);
+            if (searchIndex == -1) {
+                break;
+            }
+        }
+        return lastFound;
     }
 }
