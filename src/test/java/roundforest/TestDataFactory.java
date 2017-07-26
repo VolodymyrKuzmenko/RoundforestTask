@@ -72,6 +72,10 @@ public class TestDataFactory {
         }
     }
 
+    public static long getSizeOfRecords(){
+        return 50;
+    }
+
     private static File loadFromResource(String name) {
         ClassLoader classLoader = TestDataFactory.class.getClassLoader();
         return new File(classLoader.getResource(name).getFile());
