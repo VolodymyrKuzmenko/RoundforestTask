@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.apache.commons.io.FileUtils.getFile;
 import static org.junit.Assert.assertEquals;
-import static roundforest.AmazonReviewServiceTest.testFile;
+import static roundforest.TestDataFactory.REAL_TEST_DATA;
 import static roundforest.TestDataFactory.getReviews;
 import static roundforest.TestDataFactory.getSizeOfRecords;
 import static roundforest.executors.TranslateServiceExecutor.getSizeOfRecords;
@@ -35,11 +35,10 @@ public class TranslateServiceExecutorTest {
                 getReviews(), 2, 5);
     }
 
-
     @Test
     @Ignore
     public void shouldTranslateParallelForManualRun() {
         executor.executeParallelTranslation(
-                getFile(testFile), 5, 50);
+                getFile(REAL_TEST_DATA), 5, 50);
     }
 }

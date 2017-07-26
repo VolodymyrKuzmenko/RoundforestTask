@@ -58,7 +58,7 @@ public class TranslateServiceExecutor {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         if (service.isTerminated()) {
             log.info("Translation complete; queue size:" + queue.size());
         }

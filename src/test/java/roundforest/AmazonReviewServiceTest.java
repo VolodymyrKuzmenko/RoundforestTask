@@ -12,8 +12,6 @@ import static roundforest.TestDataFactory.*;
 
 public class AmazonReviewServiceTest {
 
-    public static final String testFile = "C:\\Users\\Vova\\Downloads\\amazon-fine-food-reviews\\Reviews.csv";
-
     private AmazonReviewService service;
 
     @Before
@@ -51,7 +49,7 @@ public class AmazonReviewServiceTest {
     @Test
     @Ignore
     public void shouldFindTheMostActiveUsersForManualRun() throws IOException {
-        service.findMostActiveUsers(getFile(testFile), 1000);
+        service.findMostActiveUsers(getFile(REAL_TEST_DATA), 1000);
     }
 
 }
