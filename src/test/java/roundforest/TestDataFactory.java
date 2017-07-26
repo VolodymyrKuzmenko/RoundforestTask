@@ -13,6 +13,7 @@ import static roundforest.domain.Language.FR;
 
 public class TestDataFactory {
 
+    public static final String REAL_TEST_DATA = "C:\\Users\\Vova\\Downloads\\amazon-fine-food-reviews\\Reviews.csv";
     public static final String REVIEWS = "reviews.csv";
     public static final String LARGE_REVIEW = "largeReview.txt";
 
@@ -70,6 +71,10 @@ public class TestDataFactory {
             e.printStackTrace();
             return Collections.emptyList();
         }
+    }
+
+    public static long getSizeOfRecords(){
+        return 50;
     }
 
     private static File loadFromResource(String name) {

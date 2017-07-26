@@ -1,6 +1,7 @@
 package roundforest;
 
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import roundforest.domain.Language;
 import roundforest.domain.ReviewDTO;
@@ -25,7 +26,10 @@ public class TranslateService {
                 .collect(Collectors.toList());
     }
 
-    private String translate(String text, Language srcLang, Language destLang) {
+    public String translate(String text, Language srcLang, Language destLang) {
+        if (text == null) {
+            return StringUtils.EMPTY;
+        }
         if (text.length() >= MAX_SIZE) {
             return splitAndTranslate(text, srcLang, destLang);
         }
