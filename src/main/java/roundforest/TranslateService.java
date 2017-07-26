@@ -25,7 +25,7 @@ public class TranslateService {
                 .collect(Collectors.toList());
     }
 
-    private String translate(String text, Language srcLang, Language destLang) {
+    public String translate(String text, Language srcLang, Language destLang) {
         if (text.length() >= MAX_SIZE) {
             return splitAndTranslate(text, srcLang, destLang);
         }

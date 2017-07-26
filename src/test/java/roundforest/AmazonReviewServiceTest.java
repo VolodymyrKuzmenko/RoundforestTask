@@ -12,7 +12,7 @@ import static roundforest.TestDataFactory.*;
 
 public class AmazonReviewServiceTest {
 
-    public static final String testFile = "C:\\Users\\Vova\\Downloads\\amazon-fine-food-reviews\\Reviews.csv";
+    public static final String testFile = "C:\\Users\\volodymyrk\\Downloads\\amazon-fine-food-reviews\\Reviews.csv";
 
     private AmazonReviewService service;
 
