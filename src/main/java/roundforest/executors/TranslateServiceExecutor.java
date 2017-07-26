@@ -31,7 +31,6 @@ public class TranslateServiceExecutor {
     private static final List<AtomicBoolean> hasDataFlags = new ArrayList<>();
     public static final Object DONE = new Object();
 
-
     public void executeParallelTranslation(File data, int producersCount, int consumersCount) {
         ExecutorService service = Executors.newFixedThreadPool(producersCount + consumersCount);
 
@@ -59,8 +58,7 @@ public class TranslateServiceExecutor {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
+        
         if (service.isTerminated()) {
             log.info("Translation complete; queue size:" + queue.size());
         }

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,15 +20,15 @@ import static roundforest.domain.ReviewFields.*;
 
 public class AmazonReviewService {
 
-    public Iterable<String> findMostActiveUsers(File reviews, int maxItems) throws IOException {
+    public List<String> findMostActiveUsers(File reviews, int maxItems) {
         return findMostUsingItemInFile(reviews, maxItems, PROFILE_NAME);
     }
 
-    public Iterable<String> findMostCommentedProduct(File reviews, int maxItems) throws IOException {
+    public List<String> findMostCommentedProduct(File reviews, int maxItems) {
         return findMostUsingItemInFile(reviews, maxItems, PRODUCT_ID);
     }
 
-    public Iterable<String> findMostUsedWords(File reviews, int limit) {
+    public List<String> findMostUsedWords(File reviews, int limit) {
         Map<String, Integer> map = new HashMap<>();
         try (Reader in = new FileReader(reviews)) {
             Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
@@ -47,7 +48,7 @@ public class AmazonReviewService {
         return sortEntrySetByIntValue(map.entrySet(), limit);
     }
 
-    private Iterable<String> findMostUsingItemInFile(File reviews, int limit, ReviewFields field) {
+    private List<String> findMostUsingItemInFile(File reviews, int limit, ReviewFields field) {
         Map<String, Integer> map = new HashMap<>();
         try (Reader in = new FileReader(reviews)) {
             Iterable<CSVRecord> records = DEFAULT.withHeader().parse(in);
@@ -61,7 +62,7 @@ public class AmazonReviewService {
         return sortEntrySetByIntValue(map.entrySet(), limit);
     }
 
-    private Iterable<String> sortEntrySetByIntValue(Set<Map.Entry<String, Integer>> entrySet, int limit) {
+    private List<String> sortEntrySetByIntValue(Set<Map.Entry<String, Integer>> entrySet, int limit) {
         return entrySet
                 .stream()
                 .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
