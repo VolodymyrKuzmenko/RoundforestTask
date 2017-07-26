@@ -21,7 +21,7 @@ public class TranslateServiceExecutorTest {
     }
 
     @Test
-    public void shouldReturnSiceOfRecords() {
+    public void shouldReturnSiseOfRecords() {
         long expected = getSizeOfRecords();
 
         long actual = getSizeOfRecords(getReviews());
@@ -32,13 +32,14 @@ public class TranslateServiceExecutorTest {
     @Test
     public void shouldTranslateParallel() {
         executor.executeParallelTranslation(
-                getReviews(), 3);
+                getReviews(), 2, 5);
     }
+
 
     @Test
     @Ignore
     public void shouldTranslateParallelForManualRun() {
         executor.executeParallelTranslation(
-                getFile(testFile), 4);
+                getFile(testFile), 5, 50);
     }
 }

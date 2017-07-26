@@ -78,5 +78,4 @@ public class AmazonReviewService {
             map.put(key, ++count);
         }
     }
-
 }
